@@ -1,0 +1,29 @@
+<ul>
+  {{$m3u8BaseUrl := .BaseUrl}}
+  {{if .TargetDuration}}<li><span class="badge badge-info">TargetDuration</span>{{.TargetDuration}} sec</li>{{end}}
+  {{if .SeqNo}}<li><span class="badge badge-info">SeqNo</span>{{.SeqNo}}</li>{{end}}
+  {{if .Args}}<li><span class="badge badge-info">Args</span>{{.Args}}</li>{{end}}
+  {{if .Iframe}}<li><span class="badge badge-info">Iframe</span>{{.Iframe}}</li>{{end}}
+  {{if .Closed}}<li><span class="badge badge-info">Closed</span>{{.Closed}}</li>{{end}}
+  {{if .MediaType}}<li><span class="badge badge-info">MediaType</span>{{.MediaType}}</li>{{end}}
+  
+  {{$segments_len := len .Segments2}}
+  {{if $segments_len}}
+  <li><a a data-toggle="collapse" href="#segments"><span class="badge badge-info">{{$segments_len}} Media Segments</a></li>
+  <ul class="collapse" id="segments">
+    {{range $index, $segment := .Segments2}}
+    <li><a data-toggle="collapse" href="#segment-{{$index}}"><span class="badge badge-info">Segment[{{$index}}]</span></a></li>
+    <ul class="collapse" id="segment-{{$index}}">
+      {{if .SeqId}}<li><span class="badge badge-info">SeqId</span>{{.SeqId}}</li>{{end}}
+      {{if .Title}}<li><span class="badge badge-info">Title</span>{{.Title}}</li>{{end}}      
+      {{if .Duration}}<li><span class="badge badge-info">Duration</span>{{.Duration}} sec</li>{{end}}
+      {{if .Limit}}<li><span class="badge badge-info">Limit</span>{{.Limit}}</li>{{end}}
+      {{if .Offset}}<li><span class="badge badge-info">Offset</span>{{.Offset}}</li>{{end}}
+      {{if .Discontinuity}}<li><span class="badge badge-info">Discontinuity</span>{{.Discontinuity}}</li>{{end}}
+      {{if .URI}}<li><a href="{{$m3u8BaseUrl}}{{.URI}}"><span class="badge badge-info">.ts file</span></a></li>{{end}}
+    </ul>
+    {{end}}
+  </ul>  
+  {{end}}
+</ul>
+

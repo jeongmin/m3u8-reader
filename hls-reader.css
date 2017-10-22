@@ -1,0 +1,23 @@
+#title-text {
+    padding-top: 20px;
+}
+
+#m3u8-input-label {
+    margin-top: 10px;
+}
+
+#controll-buttons {
+    margin-top: 10px;
+}
+
+#master-playlist {
+    margin-top: 20px;
+    border-style: solid;
+    border-width: 1px;
+    padding: 10px;
+}
+
+.badge {
+    margin-right: 10px;
+}
+

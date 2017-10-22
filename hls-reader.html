@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+          crossorigin="anonymous">    
+    <link rel="stylesheet" type="text/css" href="hls-reader.css">
+
+    <title>HLS READER</title>
+  </head>
+
+  <body class="container">
+    <header class="row">
+      <div class="col">
+        <h1 id="title-text">HLS READER</h1>
+      </div>
+    </header>
+
+    <label id="m3u8-input-label" for="m3u8Url">M3U8 URL</label>    
+    <div class="input-group">
+      <input type="url" class="form-control" id="m3u8Url" placeholder="Url of the m3u8 you wanna read" aria-label="Url of the m3u8 you wanna read" aria-describedby="basic-addon2" name="m3u8Url" value="https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8" autofocus>
+      <span class="input-group-addon" id="read">READ</span>	
+    </div>
+
+    <div id="controll-buttons">
+      <button type="button" class="btn btn-primary" id="btn-clear">Clear</button>
+    </div>
+
+    <div id="master-playlist"></div>    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>    
+    <script src="hlsreader.js"></script>    
+  </body>
+</html>
