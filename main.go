@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/grafov/m3u8"
+	"github.com/jeongmin/m3u8"
 	"html/template"
 	"net/http"
 	"strings"
