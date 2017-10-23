@@ -1,3 +1,11 @@
+ul {
+   list-style:none;
+}
+
+#read {
+    cursor: pointer;
+}
+
 #title-text {
     padding-top: 20px;
 }

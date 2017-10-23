@@ -1,17 +1,17 @@
 <h3>Master Playlist</h3>
 <ul>
   {{$m3u8BaseUrl := .BaseUrl}}
-  <li><span class="badge badge-info">Args</span>{{if .Args}}{{.Args}}{{else}}None{{end}}</li>
-  <li><span class="badge badge-info">CypherVersion</span>{{if .CypherVersion}}{{.CypherVersion}}{{else}}None{{end}}</li>
+  {{if .Args}}<li><span class="badge badge-info">Args</span>{{.Args}}</li>{{end}}
+  {{if .CypherVersion}}<li><span class="badge badge-info">CypherVersion</span>{{.CypherVersion}}</li>{{end}}
   
   {{$variants_len := len .Variants}}
   {{if $variants_len}}  
   <li><a data-toggle="collapse" href="#variants"><span class="badge badge-info">{{$variants_len}} Variants</span></a></li>
   <ul class="collapse" id="variants">
-    {{range $index, $variant := .Variants}}  
+    {{range $index, $variant := .Variants}}
     <li><a data-toggle="collapse" href="#variant-{{$index}}"><span class="badge badge-info">Variant[{{$index}}]</span></a>{{.URI}}</li>
     <ul class="collapse" id="variant-{{$index}}">
-      <li><span class="badge badge-info">ProgramId</span>{{if .ProgramId}}{{.ProgramId}}{{else}}None{{end}}</li>
+      {{if .ProgramId}}<li><span class="badge badge-info">ProgramId</span>{{.ProgramId}}</li>{{end}}
       {{if .Bandwidth}}<li><span class="badge badge-info">Bandwidth</span>{{.Bandwidth | byteToMb}}</li>{{end}}
       {{if .Codecs}}<li><span class="badge badge-info">Codecs</span>{{.Codecs}}</li>{{end}}
       {{if .Resolution}}<li><span class="badge badge-info">Resolution</span>{{.Resolution}}</li>{{end}}
@@ -21,14 +21,20 @@
       {{if .Captions}}<li><span class="badge badge-info">Captions</span>{{.Captions}}</li>{{end}}
       {{if .Name}}<li><span class="badge badge-info">Name</span>{{.Name}}</li>{{end}}
       {{if .Iframe}}<li><span class="badge badge-info">Iframe</span>{{.Iframe}}</li>{{end}}
-      {{if .URI}}<li><a class="variant-url" href="{{$m3u8BaseUrl}}{{.URI}}"><span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="URL of variant">Media Playlist</span></a></li>      
+      {{if .URI}}
+      <li>
+	<a class="variant-url" data-toggle="collapse" data-target="#mp-variant-{{$index}}" href="#mp-variant-{{$index}}">
+	  <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="URL of variant">Load Media Playlist</span>
+	</a>
+	<span class="variant-patial-url" data-variantinfo="variant-{{$index}}" data-item="{{$m3u8BaseUrl}}{{.URI}}" data-type="text">{{.URI}}</span>
+      </li>
       {{end}}
       
       {{$alternatives_len := len .Alternatives}}
       {{if $alternatives_len}}
       <li><a data-toggle="collapse" href="#alternatives"><span class="badge badge-info">{{$alternatives_len}} Alternatives</span></a></li>      
       <ul class="collapse" id="alternatives">
-	{{range $alt_index, $alternative := .Alternatives}}      
+	{{range $alt_index, $alternative := .Alternatives}}
 	<li><a data-toggle="collapse" href="#alternative-{{$alt_index}}"><span class="badge badge-info">Alternative[{{$alt_index}}]</span></a></li>
 	<ul class="collapse" id="alternative-{{$alt_index}}">
 	  {{if .GroupId}}<li><span class="badge badge-info">GroupId</span>{{.GroupId}}</li>{{end}}	  
@@ -40,7 +46,7 @@
 	  {{if .Forced}}<li><span class="badge badge-info">Forced</span>{{.Forced}}</li>{{end}}	  	  
 	  {{if .Characteristics}}<li><span class="badge badge-info">Characteristics</span>{{.Characteristics}}</li>{{end}}	  	  
 	  {{if .Subtitles}}<li><span class="badge badge-info">Subtitles</span>{{.Subtitles}}</li>{{end}}
-	  {{if .URI}}<li><span class="badge badge-info">Alternative URI</span>{{.URI}}</li>{{end}}
+	  {{if .URI}}<li><a href="{{$m3u8BaseUrl}}{{.URI}}"><span class="badge badge-info">Alternative URI</span></a>{{.URI}}</li>{{end}}
 	</ul>
 	{{end}}
       </ul>
