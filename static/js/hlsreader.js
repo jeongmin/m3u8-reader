@@ -5,7 +5,7 @@ $(document).ready(function() {
 
     $('#read').click(function() {
 	m3u8Url = $('#m3u8Url').val().trim();
-	readM3u8(m3u8Url, '#master-playlist');
+	readM3u8(m3u8Url, $('#master-playlist'));
     });
     
     $('#master-playlist').on('click', '.variant-url', function() {	
@@ -37,7 +37,8 @@ $(document).ready(function() {
     });
 });
 
-function readM3u8(m3u8Url, selector) {
+function readM3u8(m3u8Url, placeholder) {
+    placeholder.html('<h3>Loading Master Playlist...</h3>');
     $.ajax({
     	url: 'http://220.230.118.50:8080',
     	type: 'POST',
@@ -46,10 +47,11 @@ function readM3u8(m3u8Url, selector) {
     	},
     	dataType: 'text',
     	success: function (result) {	    
-	    $(selector).append(result);
+	    placeholder.html(result);
     	},
     	error: function (xhr, status, errorThrown) {
     	    alert('failed');
+	    placeholder.html('<h3>Failed to load</h3>');
     	}
     });
 }
