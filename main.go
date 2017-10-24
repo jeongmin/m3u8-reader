@@ -88,7 +88,7 @@ func main() {
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8"
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
 	//"http://nas.yatopark.net:39800/playlist"
-	//https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8
+	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
 	corsObj := handlers.AllowedOrigins([]string{"*"})
 	r := mux.NewRouter()
 	r.HandleFunc("/", handler).Methods("POST")
@@ -96,5 +96,5 @@ func main() {
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 	r.PathPrefix("/js").Handler(http.FileServer(http.Dir("./static/js")))
 	r.PathPrefix("/css").Handler(http.FileServer(http.Dir("./static/css")))
-	http.ListenAndServe(":9000", handlers.CORS(corsObj)(r))
+	http.ListenAndServe(":8080", handlers.CORS(corsObj)(r))
 }
