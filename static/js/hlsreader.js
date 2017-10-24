@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 function readM3u8(m3u8Url, selector) {
     $.ajax({
-    	url: 'http://220.230.118.50:8080',
+    	url: 'http://127.0.0.1:8080',
     	type: 'POST',
     	data: {
     	    m3u8Url: m3u8Url
@@ -58,7 +58,7 @@ function readM3u8(m3u8Url, selector) {
 
 function appendMediaPlaylist(variantInfo, m3u8Url, elementId, element) {
     $.ajax({
-    	url: 'http://220.230.118.50:8080',
+    	url: 'http://127.0.0.1:8080',
     	type: 'POST',
     	data: {
     	    m3u8Url: m3u8Url,
