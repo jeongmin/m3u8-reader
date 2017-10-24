@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
     })
@@ -11,9 +11,18 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#master-playlist').on('click', '.variant-url', function() {	
 	if ($(this).children().attr('class').match('badge-secondary')) {
 	    m3u8Url = $(this).siblings('span').attr('data-item').trim();
-	    variantInfo = $(this).siblings('span').attr('data-variantinfo').trim();
-    	    appendMediaPlaylist(variantInfo, m3u8Url, $(this).attr('href').slice(1), $(this).parent());
+	    targetId = $(this).siblings('span').attr('data-target-id').trim();
+    	    appendMediaPlaylist(targetId, m3u8Url, $(this).attr('href').slice(1), $(this).parent());
 	    $(this).children().removeClass('badge-secondary').addClass('badge-info').text("Media Playlist");
+	}	
+    });
+
+    $('#master-playlist').on('click', '.alternative-url', function() {	
+	if ($(this).children().attr('class').match('badge-secondary')) {
+	    m3u8Url = $(this).siblings('span').attr('data-item').trim();
+	    targetId = $(this).siblings('span').attr('data-target-id').trim();
+	    appendMediaPlaylist(targetId, m3u8Url, $(this).attr('href').slice(1), $(this).parent());
+	    $(this).children().removeClass('badge-secondary').addClass('badge-info').text("Alternative Media Playlist");
 	}	
     });
 
@@ -28,8 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#btn-collapse-all').click(function() {
 	$('.collapse').collapse('hide');
     });
-
-}, false);
+});
 
 function readM3u8(m3u8Url, selector) {
     $.ajax({
@@ -39,7 +47,7 @@ function readM3u8(m3u8Url, selector) {
     	    m3u8Url: m3u8Url
     	},
     	dataType: 'text',
-    	success: function (result) {    	    
+    	success: function (result) {	    
 	    $(selector).append(result);
     	},
     	error: function (xhr, status, errorThrown) {
@@ -57,7 +65,7 @@ function appendMediaPlaylist(variantInfo, m3u8Url, elementId, element) {
 	    variantInfo: variantInfo	    
     	},
     	dataType: 'text',
-    	success: function (result) {	    	    	    
+    	success: function (result) {	    
 	    element.append('<ul class="collapse" id=\"' + elementId + '\">' + result + '</ul>');	    
     	},
     	error: function (xhr, status, errorThrown) {

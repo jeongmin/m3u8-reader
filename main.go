@@ -46,6 +46,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		responseMediaPlaylist(w, mediapl)
 	case m3u8.MASTER:
 		masterpl := p.(*m3u8.MasterPlaylist)
+		masterpl.FullUrl = m3u8Url
 		masterpl.BaseUrl = m3u8BaseUrl
 		responseMasterPlaylist(w, masterpl)
 	}
@@ -56,7 +57,7 @@ func responseMasterPlaylist(w http.ResponseWriter, masterPlaylist *m3u8.MasterPl
 		"byteToMb": byteToMb,
 	}
 
-	t := template.Must(template.New("master-playlist.html").Funcs(fmap).ParseFiles("master-playlist.html"))
+	t := template.Must(template.New("master-playlist.html").Funcs(fmap).ParseFiles("static/template/master-playlist.html"))
 	err := t.Execute(w, masterPlaylist)
 	if err != nil {
 		panic(err)
@@ -64,7 +65,7 @@ func responseMasterPlaylist(w http.ResponseWriter, masterPlaylist *m3u8.MasterPl
 }
 
 func responseMediaPlaylist(w http.ResponseWriter, mediaPlaylist *m3u8.MediaPlaylist) {
-	t := template.Must(template.New("media-playlist.html").Funcs(fmap).ParseFiles("media-playlist.html"))
+	t := template.Must(template.New("media-playlist.html").Funcs(fmap).ParseFiles("static/template/media-playlist.html"))
 	err := t.Execute(w, mediaPlaylist)
 	if err != nil {
 		panic(err)
@@ -86,8 +87,14 @@ func main() {
 	//"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8"
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
+	//"http://nas.yatopark.net:39800/playlist"
+	//https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8
 	corsObj := handlers.AllowedOrigins([]string{"*"})
 	r := mux.NewRouter()
 	r.HandleFunc("/", handler).Methods("POST")
+	r.Handle("/", http.FileServer(http.Dir("./static/")))
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+	r.PathPrefix("/js").Handler(http.FileServer(http.Dir("./static/js")))
+	r.PathPrefix("/css").Handler(http.FileServer(http.Dir("./static/css")))
 	http.ListenAndServe(":9000", handlers.CORS(corsObj)(r))
 }

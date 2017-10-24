@@ -3,10 +3,19 @@
   {{$m3u8BaseUrl := .BaseUrl}}
   {{if .Args}}<li><span class="badge badge-info">Args</span>{{.Args}}</li>{{end}}
   {{if .CypherVersion}}<li><span class="badge badge-info">CypherVersion</span>{{.CypherVersion}}</li>{{end}}
+  <li>
+    <a href="{{.FullUrl}}">
+      <span class="badge badge-primary">Download Raw Data</span>
+    </a>
+  </li>
   
   {{$variants_len := len .Variants}}
   {{if $variants_len}}  
-  <li><a data-toggle="collapse" href="#variants"><span class="badge badge-info">{{$variants_len}} Variants</span></a></li>
+  <li>
+    <a data-toggle="collapse" href="#variants">
+      <span class="badge badge-info">{{$variants_len}} Variants</span>
+    </a>    
+  </li>
   <ul class="collapse" id="variants">
     {{range $index, $variant := .Variants}}
     <li><a data-toggle="collapse" href="#variant-{{$index}}"><span class="badge badge-info">Variant[{{$index}}]</span></a>{{.URI}}</li>
@@ -26,7 +35,12 @@
 	<a class="variant-url" data-toggle="collapse" data-target="#mp-variant-{{$index}}" href="#mp-variant-{{$index}}">
 	  <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="URL of variant">Load Media Playlist</span>
 	</a>
-	<span class="variant-patial-url" data-variantinfo="variant-{{$index}}" data-item="{{$m3u8BaseUrl}}{{.URI}}" data-type="text">{{.URI}}</span>
+
+	<a href="{{$m3u8BaseUrl}}{{.URI}}">
+	  <span class="badge badge-primary">Download Raw Data</span>
+	</a>
+  
+	<span class="variant-patial-url" data-target-id="variant-{{$index}}" data-item="{{$m3u8BaseUrl}}{{.URI}}" data-type="text">{{.URI}}</span>
       </li>
       {{end}}
       
@@ -46,7 +60,20 @@
 	  {{if .Forced}}<li><span class="badge badge-info">Forced</span>{{.Forced}}</li>{{end}}	  	  
 	  {{if .Characteristics}}<li><span class="badge badge-info">Characteristics</span>{{.Characteristics}}</li>{{end}}	  	  
 	  {{if .Subtitles}}<li><span class="badge badge-info">Subtitles</span>{{.Subtitles}}</li>{{end}}
-	  {{if .URI}}<li><a href="{{$m3u8BaseUrl}}{{.URI}}"><span class="badge badge-info">Alternative URI</span></a>{{.URI}}</li>{{end}}
+	  {{if .URI}}
+	  <li>
+	    <a class="alternative-url" data-toggle="collapse" data-target="#alt-{{$index}}"  href="#alt-{{$index}}">
+	      <span class="badge badge-secondary">Load Alternative URI</span>
+	    </a>
+
+	    <a href="{{$m3u8BaseUrl}}{{.URI}}">
+	      <span class="badge badge-primary">Download Raw Data</span>
+	    </a>
+
+	    <span class="alt-patial-url" data-target-id="alt-{{$index}}" data-item="{{$m3u8BaseUrl}}{{.URI}}" data-type="text">{{.URI}}</span>	    
+	    {{.URI}}
+	  </li>
+	  {{end}}
 	</ul>
 	{{end}}
       </ul>
