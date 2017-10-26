@@ -1,5 +1,5 @@
-//var serverUrl = 'http://220.230.118.50:8080';
-var serverUrl = 'http://localhost:8080';
+var serverUrl = 'http://220.230.118.50:8080';
+//var serverUrl = 'http://localhost:8080';
 var apiRawData = '/rawdata';
 
 $(document).ready(function() {
@@ -27,6 +27,7 @@ $(document).ready(function() {
 	    return;
 	}
 	
+	apiUrl = serverUrl + apiRawData;
 	m3u8Url = $(this).attr('data-raw-url').trim();
 	targetId = $(this).attr('data-target-id');
 	badge = $(this).children('span');
@@ -34,7 +35,7 @@ $(document).ready(function() {
 	originalBadgeText = badge.text();
 	badge.text('downloading');
 	$.ajax({
-    	    url: 'http://localhost:8080/rawdata',
+    	    url: apiUrl,
     	    type: 'POST',
     	    data: {
     		m3u8Url: m3u8Url
