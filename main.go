@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jeongmin/m3u8"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -14,6 +15,24 @@ import (
 var m3u8BaseUrl string
 var fmap = template.FuncMap{
 	"byteToMb": byteToMb,
+}
+
+func handlerRawData(w http.ResponseWriter, r *http.Request) {
+	m3u8Url := r.FormValue("m3u8Url")
+	// ignore the certificate verification for https request
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+
+	resp, err := client.Get(m3u8Url)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Fprintf(w, "%s", keepLines(string(body)))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -92,9 +111,14 @@ func main() {
 	corsObj := handlers.AllowedOrigins([]string{"*"})
 	r := mux.NewRouter()
 	r.HandleFunc("/", handler).Methods("POST")
+	r.HandleFunc("/rawdata", handlerRawData).Methods("POST")
 	r.Handle("/", http.FileServer(http.Dir("./static/")))
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 	r.PathPrefix("/js").Handler(http.FileServer(http.Dir("./static/js")))
 	r.PathPrefix("/css").Handler(http.FileServer(http.Dir("./static/css")))
 	http.ListenAndServe(":8080", handlers.CORS(corsObj)(r))
+}
+
+func keepLines(s string) string {
+	return strings.Replace(s, "\n", "<br>", -1)
 }
