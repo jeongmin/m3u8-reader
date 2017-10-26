@@ -66,8 +66,9 @@
 	      <span class="badge badge-secondary need-moredata">Load Alternative URI</span>
 	    </a>
 
-	    <a href="{{$m3u8BaseUrl}}{{.URI}}">
-	      <span class="badge badge-secondary need-moredata rawdata">Load Raw Data</span>
+	    
+	    <a class="rawdata" data-toggle="collapse" data-raw-url="{{$m3u8BaseUrl}}{{.URI}}" data-target-id="alt-raw-{{$index}}" href="#alt-raw-{{$index}}">
+	      <span class="badge badge-secondary need-moredata">Load Raw Data</span>
 	    </a>
 
 	    <span class="alt-patial-url" data-target-id="alt-{{$index}}" data-item="{{$m3u8BaseUrl}}{{.URI}}" data-type="text">{{.URI}}</span>	    
