@@ -12,3 +12,5 @@ http://220.230.118.50:8080/
 ## Screenshot
 ![Screenshot of HLS READER](https://github.com/jeongmin/hls-reader/blob/master/screenshot.png?raw=true)
 
+## License
+This project covered by BSD 3-clause license. See [LICENSE](LICENSE) for the full text.
