@@ -5,18 +5,31 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/jeongmin/m3u8"
+	"github.com/grafov/m3u8"
 	"html/template"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
-var m3u8BaseUrl string
+type MasterPlaylistWrapper struct {
+	*m3u8.MasterPlaylist
+	FullUrl string
+	BaseUrl string
+}
+
+type MediaPlaylistWrapper struct {
+	*m3u8.MediaPlaylist
+	BaseUrl     string
+	VariantInfo string
+}
+
+// FuncMap for template
 var fmap = template.FuncMap{
 	"byteToMb": byteToMb,
 }
 
+// Handler for getting m3u8
 func handlerRawData(w http.ResponseWriter, r *http.Request) {
 	m3u8Url := r.FormValue("m3u8Url")
 	// ignore the certificate verification for https request
@@ -37,7 +50,7 @@ func handlerRawData(w http.ResponseWriter, r *http.Request) {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	m3u8Url := r.FormValue("m3u8Url")
-	m3u8BaseUrl = m3u8Url[:strings.LastIndex(m3u8Url, "/")+1]
+	m3u8BaseUrl := m3u8Url[:strings.LastIndex(m3u8Url, "/")+1]
 
 	// ignore the certificate verification for https request
 	tr := &http.Transport{
@@ -58,34 +71,36 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	switch listType {
 	case m3u8.MEDIA:
-		mediapl := p.(*m3u8.MediaPlaylist)
-		mediapl.BaseUrl = m3u8BaseUrl
-		mediapl.Segments2 = mediapl.Segments[0 : mediapl.Count()-1]
-		mediapl.VariantInfo = r.FormValue("variantInfo")
-		responseMediaPlaylist(w, mediapl)
+		var mediaPlWrapper MediaPlaylistWrapper
+		mediaPlWrapper.MediaPlaylist = p.(*m3u8.MediaPlaylist)
+		mediaPlWrapper.BaseUrl = m3u8BaseUrl
+		mediaPlWrapper.MediaPlaylist.Segments = mediaPlWrapper.MediaPlaylist.Segments[0 : mediaPlWrapper.MediaPlaylist.Count()-1]
+		mediaPlWrapper.VariantInfo = r.FormValue("variantInfo")
+		responseMediaPlaylist(w, &mediaPlWrapper)
 	case m3u8.MASTER:
-		masterpl := p.(*m3u8.MasterPlaylist)
-		masterpl.FullUrl = m3u8Url
-		masterpl.BaseUrl = m3u8BaseUrl
-		responseMasterPlaylist(w, masterpl)
+		var masterPlWrapper MasterPlaylistWrapper
+		masterPlWrapper.MasterPlaylist = p.(*m3u8.MasterPlaylist)
+		masterPlWrapper.FullUrl = m3u8Url
+		masterPlWrapper.BaseUrl = m3u8BaseUrl
+		responseMasterPlaylist(w, &masterPlWrapper)
 	}
 }
 
-func responseMasterPlaylist(w http.ResponseWriter, masterPlaylist *m3u8.MasterPlaylist) {
+func responseMasterPlaylist(w http.ResponseWriter, masterPlaylistWrapper *MasterPlaylistWrapper) {
 	fmap := template.FuncMap{
 		"byteToMb": byteToMb,
 	}
 
 	t := template.Must(template.New("master-playlist.html").Funcs(fmap).ParseFiles("static/template/master-playlist.html"))
-	err := t.Execute(w, masterPlaylist)
+	err := t.Execute(w, masterPlaylistWrapper)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func responseMediaPlaylist(w http.ResponseWriter, mediaPlaylist *m3u8.MediaPlaylist) {
+func responseMediaPlaylist(w http.ResponseWriter, mediaPlaylistWrapper *MediaPlaylistWrapper) {
 	t := template.Must(template.New("media-playlist.html").Funcs(fmap).ParseFiles("static/template/media-playlist.html"))
-	err := t.Execute(w, mediaPlaylist)
+	err := t.Execute(w, mediaPlaylistWrapper)
 	if err != nil {
 		panic(err)
 	}
@@ -105,8 +120,6 @@ func main() {
 	//"http://dev.p.naverrmc.edgesuite.net/global/read/wav_2017_03_14_1/657b3mqX75JTqHFiOEowbaejFA_rmcvideo_360P_640_1228_128_adoptive.m3u8"
 	//"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8"
-	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
-	//"http://nas.yatopark.net:39800/playlist"
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
 	corsObj := handlers.AllowedOrigins([]string{"*"})
 	r := mux.NewRouter()

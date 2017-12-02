@@ -4,6 +4,7 @@ var apiRawData = '/rawdata';
 
 $(document).ready(function() {
     $("input[name=m3u8Url]").keydown(function (key) {
+	// handle Enter key to read a url in an input tag.
 	if (key.keyCode == 13) {
 	    read();
 	}
@@ -27,10 +28,10 @@ $(document).ready(function() {
 	    return;
 	}
 	
-	apiUrl = serverUrl + apiRawData;
-	m3u8Url = $(this).attr('data-raw-url').trim();
-	targetId = $(this).attr('data-target-id');
-	badge = $(this).children('span');
+	apiUrl      = serverUrl + apiRawData;
+	m3u8Url     = $(this).attr('data-raw-url').trim();
+	targetId    = $(this).attr('data-target-id');
+	badge       = $(this).children('span');
 	placeHolder = $(this).parent();
 	originalBadgeText = badge.text();
 	badge.text('downloading');
