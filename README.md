@@ -2,7 +2,8 @@
 This is a reader for M3U8 format used in [Apple's HLS protocol](https://developer.apple.com/streaming/). You can see m3u8 format represented by tree structure and also see it as raw text. 
 
 This project is built on a M3U8 Parser below.
-[M3U8](https://github.com/grafov/m3u8)
+
+[M3U8 parser created by Alexander Grafov](https://github.com/grafov/m3u8)
 
 ## Test Page
 You can test here.
