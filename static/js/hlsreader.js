@@ -104,8 +104,6 @@ function readM3u8(m3u8Url, placeholder) {
 }
 
 function appendMediaPlaylist(variantInfo, m3u8Url, elementId, element, badge, badgeText) {
-    alert(m3u8Url);
-
     originalBadgeText = badge.text();
     badge.text("loading...");    
     $.ajax({
