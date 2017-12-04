@@ -116,9 +116,7 @@ func byteToMb(bandwidth uint32) string {
 	}
 }
 
-func main() {
-	//"http://dev.p.naverrmc.edgesuite.net/global/read/wav_2017_03_14_1/657b3mqX75JTqHFiOEowbaejFA_rmcvideo_360P_640_1228_128_adoptive.m3u8"
-	//"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
+func main() { //"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8"
 	//"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
 	corsObj := handlers.AllowedOrigins([]string{"*"})
@@ -130,6 +128,7 @@ func main() {
 	r.PathPrefix("/js").Handler(http.FileServer(http.Dir("./static/js")))
 	r.PathPrefix("/css").Handler(http.FileServer(http.Dir("./static/css")))
 	http.ListenAndServe(":8080", handlers.CORS(corsObj)(r))
+
 }
 
 func keepLines(s string) string {

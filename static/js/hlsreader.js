@@ -55,10 +55,10 @@ $(document).ready(function() {
 	});	
     });
     
-    $('#master-playlist').on('click', '.variant-url', function() {	
+    $('#master-playlist').on('click', '.variant-url', function() {
 	if ($(this).children().attr('class').match('need-moredata')) {
 	    m3u8Url = $(this).siblings('span').attr('data-item').trim();
-	    targetId = $(this).siblings('span').attr('data-target-id').trim();
+	    targetId = $(this).siblings('span').attr('data-target-id').trim();	    
     	    appendMediaPlaylist(targetId, m3u8Url, $(this).attr('href').slice(1), $(this).parent(), $(this).children(), "Media Playlist");
 	}	
     });
@@ -104,8 +104,10 @@ function readM3u8(m3u8Url, placeholder) {
 }
 
 function appendMediaPlaylist(variantInfo, m3u8Url, elementId, element, badge, badgeText) {
+    alert(m3u8Url);
+
     originalBadgeText = badge.text();
-    badge.text("loading...");
+    badge.text("loading...");    
     $.ajax({
     	url: serverUrl,
     	type: 'POST',

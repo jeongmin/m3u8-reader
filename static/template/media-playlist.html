@@ -7,7 +7,7 @@
 {{if .Closed}}<li><span class="badge badge-info">Closed</span>{{.Closed}}</li>{{end}}
 {{if .MediaType}}<li><span class="badge badge-info">MediaType</span>{{.MediaType}}</li>{{end}}
 
-{{$segments_len := len .Segments2}}
+{{$segments_len := len .Segments}}
 {{if $segments_len}}
 <li>
   <a a data-toggle="collapse" href="#{{$variant}}-segments">
@@ -15,7 +15,7 @@
   </a>  
 </li>
 <ul class="collapse" id="{{$variant}}-segments">
-  {{range $index, $segment := .Segments2}}
+  {{range $index, $segment := .Segments}}
   <li>
     <a data-toggle="collapse" href="#{{$variant}}-segment-{{$index}}">
       <span class="badge badge-success">Segment[{{$index}}]</span>      
