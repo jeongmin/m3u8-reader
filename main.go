@@ -64,7 +64,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	p, listType, err := m3u8.DecodeFrom(resp.Body, true)
+	p, listType, err := m3u8.DecodeFrom(resp.Body, false)
 	if err != nil {
 		panic(err)
 	}

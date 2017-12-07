@@ -97,7 +97,7 @@ function readM3u8(m3u8Url, placeholder) {
 	    placeholder.html(result);
     	},
     	error: function (xhr, status, errorThrown) {
-    	    alert('failed');
+    	    alert('failed to load : ' + m3u8Url);
 	    placeholder.html('<h3>Failed to load</h3>');
     	}
     });
