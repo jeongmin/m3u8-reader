@@ -19,5 +19,11 @@ http://220.230.118.50:8080/
 ## Screenshot
 ![Screenshot of HLS READER](https://github.com/jeongmin/hls-reader/blob/master/screenshot.png?raw=true)
 
+## TODOs
+* Add tooltips for describing fields that associated with them.
+* Download all .ts files in a specific media playlist.
+* Add SEO to the test page.
+* Apply ssl to the test page.
+
 ## License
 This project covered by BSD 3-clause license. See [LICENSE](LICENSE) for the full text.
